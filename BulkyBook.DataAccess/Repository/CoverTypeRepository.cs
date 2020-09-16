@@ -23,7 +23,7 @@ namespace BulkyBook.DataAccess.Repository
             
             if(objFromDb != null)
             {
-                coverType.Name = objFromDb.Name;
+                objFromDb.Name = coverType.Name;
                 _db.SaveChanges();
             }
         }

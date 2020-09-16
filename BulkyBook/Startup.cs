@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.DataAccess.Repository;
+using BulkyBook.Utility;
 
 namespace BulkyBook
 {
@@ -63,7 +64,7 @@ namespace BulkyBook
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: SD.pattern);
                 endpoints.MapRazorPages();
             });
         }
