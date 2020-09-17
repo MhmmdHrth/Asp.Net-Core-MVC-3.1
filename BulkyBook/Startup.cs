@@ -15,6 +15,7 @@ using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.Utility;
+using BulkyBook.Models;
 
 namespace BulkyBook
 {
@@ -29,13 +30,11 @@ namespace BulkyBook
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddCustomeDbContext(Configuration);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
         }
@@ -67,6 +66,20 @@ namespace BulkyBook
                     pattern: SD.pattern);
                 endpoints.MapRazorPages();
             });
+        }
+    }
+
+    static class CustomExtensionMethods
+    {
+        public static IServiceCollection AddCustomeDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            return services;
         }
     }
 }
