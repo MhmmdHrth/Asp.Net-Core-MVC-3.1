@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BulkyBook.DataAccess.Repository.IRepository;
@@ -56,30 +57,65 @@ namespace BulkyBook.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(productVM.Product);
+            return View(productVM);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Upsert(Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (product.Id == 0)
-        //        {
-        //            _unitOfWork.Product.Add(product);
-        //        }
-        //        else
-        //        {
-        //            _unitOfWork.Product.Update(product);
-        //        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(ProductVM productVM)
+        {
+            if (ModelState.IsValid)
+            {
+                //get files uploaded
+                var files = HttpContext.Request.Form.Files;
+                if(files.Count > 0)
+                {
+                    byte[] pic = null;
+                    using (var fileStream1 = files[0].OpenReadStream())
+                    {
+                        using(var memoryStream1 = new MemoryStream())
+                        {
+                            fileStream1.CopyTo(memoryStream1);
+                            pic = memoryStream1.ToArray();
+                        }
+                    }
+                    productVM.Product.ImageUrl = pic;
+                }
 
-        //        _unitOfWork.Save();
-        //        return RedirectToAction(nameof(Index));
-        //    }
+                if (productVM.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(productVM.Product);
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(productVM.Product);
+                }
 
-        //    return View(product);
-        //}
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
+                productVM.CoverTypeList = _unitOfWork.CoverType.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
+
+
+                //check populate for update
+                if(productVM.Product.Id != 0)
+                {
+                    productVM.Product = _unitOfWork.Product.Get(productVM.Product.Id);
+                }
+            }
+            return View(productVM);
+        }
 
         #region API CALLS
 
