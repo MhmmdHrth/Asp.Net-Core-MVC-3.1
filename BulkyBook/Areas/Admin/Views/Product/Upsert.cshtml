@@ -162,11 +162,10 @@
         });
 
         function validateInput() {
-            if (document.getElementById(uploadBox).value == null) {
+            if (document.getElementById("uploadBox").value == "") {
                 swal("Error", "Please select an image", "error");
                 return false
             }
-
             return true
         }
     </script>
