@@ -20,6 +20,10 @@ namespace BulkyBook.Models
 
         public string PostalCode { get; set; }
 
+        public int? CompanyId { get; set; } //nullable
+        [ForeignKey(nameof(CompanyId))]
+        public Company Company { get; set; }
+
         [NotMapped] //means these properties will not be pushed to the database
         public string Role { get; set; }
     }
