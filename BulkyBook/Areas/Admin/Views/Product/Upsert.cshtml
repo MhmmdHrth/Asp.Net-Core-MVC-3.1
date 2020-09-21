@@ -94,8 +94,8 @@
                     Category
                 </div>
                 <div class="col-8">
-                    @Html.DropDownListFor(x => x.Product.CategoryId, Model.CategoryList, "-Select a Category", new { @class = "form-control" });
-                    <span asp-validation-for="Product.CategoryId"></span>
+                    @Html.DropDownListFor(x => x.Product.CategoryId, Model.CategoryList, "-Select a Category", new { @class = "form-control" })
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
@@ -103,8 +103,8 @@
                     Cover Type
                 </div>
                 <div class="col-8">
-                    @Html.DropDownListFor(x => x.Product.CoverTypeId, Model.CoverTypeList, "-Select a Cover Type", new { @class = "form-control" });
-                    <span asp-validation-for="Product.CoverTypeId"></span>
+                    @Html.DropDownListFor(x => x.Product.CoverTypeId, Model.CoverTypeList, "-Select a Cover Type", new { @class = "form-control" })
+                    <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
@@ -125,7 +125,7 @@
                     {
                         <div class="row">
                             <div class="col">
-                                <button type="submit" onclick="" class="btn btn-primary form-control">Create</button>
+                                <button type="submit" onclick="validateInput()" class="btn btn-primary form-control">Create</button>
                             </div>
                             <div class="col">
                                 <a asp-action="Index" class="btn btn-success form-control">Back To List</a>
@@ -136,6 +136,38 @@
                 </div>
             </div>
         </div>
+        @if(Model.Product.Id != 0)
+        {
+            <div class="col-3 offset-1 pt-2">
+
+                @{
+                    var base64 = Convert.ToBase64String(Model.Product.ImageUrl);
+                    var pic = String.Format($"data:image/jpg;base64,{base64}");
+                 }
+                <img src="@pic" style="width:100%;border-radius:5px;border:1px solid #bbb9b9" /> 
+            </div>
+        }
     </div>
 </form>
 
+@section Scripts{ 
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.tiny.cloud/1/ome4mv1s7ou8e9lbmyf9tentodzo8i9d9ekulz912jpn4ezu/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            plugins: 'lists',
+            menubar: 'file edit format'
+        });
+
+        function validateInput() {
+            if (document.getElementById(uploadBox).value == null) {
+                swal("Error", "Please select an image", "error");
+                return false
+            }
+
+            return true
+        }
+    </script>
+}
