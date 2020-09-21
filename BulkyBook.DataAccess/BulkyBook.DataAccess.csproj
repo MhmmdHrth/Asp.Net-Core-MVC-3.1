@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200918115250_changingImageToByte.cs" />
+    <Compile Remove="Migrations\20200918115250_changingImageToByte.Designer.cs" />
+    <Compile Remove="Migrations\20200918120252_changeImageTypeToByte.cs" />
+    <Compile Remove="Migrations\20200918120252_changeImageTypeToByte.Designer.cs" />
+    <Compile Remove="Migrations\20200918120802_addProductToDb.cs" />
+    <Compile Remove="Migrations\20200918120802_addProductToDb.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
