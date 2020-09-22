@@ -18,6 +18,7 @@ namespace BulkyBook.DataAccess.Repository
             CoverType = new CoverTypeRepository(_db);
             Product = new ProductRepository(_db);
             Company = new CompanyRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
         }
 
         public ICategoryRepository Category { get; private set; }
@@ -29,6 +30,8 @@ namespace BulkyBook.DataAccess.Repository
         public IProductRepository Product { get; private set; }
 
         public ICompanyRepository Company { get; set; }
+
+        public IApplicationUserRepository ApplicationUser { get; set; }
 
         public void Dispose()
         {
