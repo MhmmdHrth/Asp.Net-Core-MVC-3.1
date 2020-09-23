@@ -16,6 +16,7 @@ using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.Utility;
 using BulkyBook.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace BulkyBook
 {
@@ -32,7 +33,9 @@ namespace BulkyBook
         {
 
             services.AddCustomeDbContext(Configuration);
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IEmailSender, EmailSender>();
 
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
