@@ -104,10 +104,10 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     Text = x.Name,
                     Value = x.Id.ToString()
                 }),
-                RoleList = _roleManager.Roles.Where(x => x.Name != SD.Role_User_Individual).Select(x => new SelectListItem()
+                RoleList = _roleManager.Roles.Where(x => x.Name != SD.Role_User_Individual).Select(x => x.Name).Select(x => new SelectListItem()
                 {
-                    Text = x.Name,
-                    Value = x.Id.ToString()
+                    Text = x,
+                    Value = x
                 })
             };
 
@@ -131,7 +131,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     PostalCode = Input.PostalCode,
                     Name = Input.Name,
                     PhoneNumber = Input.PhoneNumber,
-                    Role = Input.Role,
+                    Role = Input.Role
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -161,19 +161,20 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     }
 
                     //assign user to the role
-                    if(user.Role == null)
+                    if (user.Role == null)
                     {
                         await _userManager.AddToRoleAsync(user, SD.Role_User_Individual);
                     }
                     else
                     {
-                        if(user.CompanyId > 0) //user have company
+                        if (user.CompanyId > 0) //user have company
                         {
                             await _userManager.AddToRoleAsync(user, SD.Role_User_Company);
                         }
 
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
+
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
