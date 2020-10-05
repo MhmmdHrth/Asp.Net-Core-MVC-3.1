@@ -38,7 +38,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             { 
                 var roleId = userRole.FirstOrDefault(x => x.UserId == user.Id).RoleId;
                 user.Role = roles.FirstOrDefault(x => x.Id == roleId).Name;
-                if(user.Company == null)
+                if(user.CompanyId == null)
                 {
                     user.Company = new Company()
                     {
