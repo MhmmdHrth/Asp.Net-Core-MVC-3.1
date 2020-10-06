@@ -37,28 +37,11 @@ namespace BulkyBook
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IEmailSender, EmailSender>();
 
-
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = $"/Identity/Account/Login";
-                options.LogoutPath = $"/Identity/Account/Logout";
-                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-            });
-
-            services.AddAuthentication().AddFacebook(options =>
-            {
-                options.AppId = "2691071014348881";
-                options.AppSecret = "06e1ae0842d673efb2fce787f1f9c2d0";
-            });
-
-            services.AddAuthentication().AddGoogle(options =>
-            {
-                options.ClientId = "709466992362-hr6o1r3s7tblp8f4elrirdnsoqjrq1a9.apps.googleusercontent.com";
-                options.ClientSecret = "wjplXrK1sAqFuJsEkcYcsEzR";
-            });
+            services.AddCustomCookiesPath(Configuration)
+                    .AddCustomeAuthentication(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -100,6 +83,35 @@ namespace BulkyBook
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomeAuthentication(this IServiceCollection services, IConfiguration Configuration)
+        {
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "2691071014348881";
+                options.AppSecret = "06e1ae0842d673efb2fce787f1f9c2d0";
+            });
+
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "709466992362-hr6o1r3s7tblp8f4elrirdnsoqjrq1a9.apps.googleusercontent.com";
+                options.ClientSecret = "wjplXrK1sAqFuJsEkcYcsEzR";
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomCookiesPath(this IServiceCollection services, IConfiguration Configuration)
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
 
             return services;
         }
