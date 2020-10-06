@@ -47,6 +47,12 @@ namespace BulkyBook
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "2691071014348881";
+                options.AppSecret = "06e1ae0842d673efb2fce787f1f9c2d0";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
