@@ -40,8 +40,9 @@ namespace BulkyBook
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
-            services.AddCustomCookiesPath(Configuration)
-                    .AddCustomeAuthentication(Configuration);
+            services.AddCustomCookiesPath()
+                    .AddCustomeAuthentication()
+                    .AddCustomeSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,7 +61,7 @@ namespace BulkyBook
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -87,7 +88,7 @@ namespace BulkyBook
             return services;
         }
 
-        public static IServiceCollection AddCustomeAuthentication(this IServiceCollection services, IConfiguration Configuration)
+        public static IServiceCollection AddCustomeAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication().AddFacebook(options =>
             {
@@ -104,13 +105,24 @@ namespace BulkyBook
             return services;
         }
 
-        public static IServiceCollection AddCustomCookiesPath(this IServiceCollection services, IConfiguration Configuration)
+        public static IServiceCollection AddCustomCookiesPath(this IServiceCollection services)
         {
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            return services;
+        }
+        public static IServiceCollection AddCustomeSession(this IServiceCollection services)
+        {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
             return services;
