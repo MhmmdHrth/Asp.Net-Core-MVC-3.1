@@ -25,8 +25,22 @@ namespace BulkyBook.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,CoverType"); 
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(); 
             return View(productList);
+        }
+
+        public IActionResult Details(int id)
+        {
+            Product productFromDb = _unitOfWork.Product.
+                GetFirstOrDefault(x => x.Id == id,includeProperties:"CoverType,Category");
+
+            ShoppingCart shoppingCart = new ShoppingCart()
+            {
+                Product = productFromDb,
+                ProductId = productFromDb.Id
+            };
+
+            return View(shoppingCart);
         }
 
         public IActionResult Privacy()
