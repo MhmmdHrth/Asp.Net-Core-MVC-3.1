@@ -41,11 +41,6 @@ namespace BulkyBook.Areas.Customer.Controllers
                                                            , includeProperties: "Product")
             };
 
-            ShoppingCartVM.OrderHeader.OrderTotal = 0;
-            //ShoppingCartVM.OrderHeader.ApplicationUser
-            //    = _unitOfWork.ApplicationUser.GetFirstOrDefault(x => x.Id == claim.Value,
-            //                                                    includeProperties: "Company");
-
             //manipulate data
             foreach (var list in ShoppingCartVM.ListCart)
             {
