@@ -6,24 +6,24 @@ namespace BulkyBook.DataAccess.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"CREATE PROC usp_GetCoverTypes 
-                                    AS 
-                                    BEGIN 
-                                     SELECT * FROM   dbo.CoverTypes 
+            migrationBuilder.Sql(@"CREATE PROC usp_GetCoverTypes
+                                    AS
+                                    BEGIN
+                                     SELECT * FROM   dbo.CoverTypes
                                     END");
 
-            migrationBuilder.Sql(@"CREATE PROC usp_GetCoverType 
-                                    @Id int 
-                                    AS 
-                                    BEGIN 
-                                     SELECT * FROM   dbo.CoverTypes  WHERE  (Id = @Id) 
+            migrationBuilder.Sql(@"CREATE PROC usp_GetCoverType
+                                    @Id int
+                                    AS
+                                    BEGIN
+                                     SELECT * FROM   dbo.CoverTypes  WHERE  (Id = @Id)
                                     END ");
 
             migrationBuilder.Sql(@"CREATE PROC usp_UpdateCoverType
 	                                @Id int,
 	                                @Name varchar(100)
-                                    AS 
-                                    BEGIN 
+                                    AS
+                                    BEGIN
                                      UPDATE dbo.CoverTypes
                                      SET  Name = @Name
                                      WHERE  Id = @Id
@@ -31,16 +31,16 @@ namespace BulkyBook.DataAccess.Migrations
 
             migrationBuilder.Sql(@"CREATE PROC usp_DeleteCoverType
 	                                @Id int
-                                    AS 
-                                    BEGIN 
+                                    AS
+                                    BEGIN
                                      DELETE FROM dbo.CoverTypes
                                      WHERE  Id = @Id
                                     END");
 
             migrationBuilder.Sql(@"CREATE PROC usp_CreateCoverType
                                    @Name varchar(100)
-                                   AS 
-                                   BEGIN 
+                                   AS
+                                   BEGIN
                                     INSERT INTO dbo.CoverTypes(Name)
                                     VALUES (@Name)
                                    END");

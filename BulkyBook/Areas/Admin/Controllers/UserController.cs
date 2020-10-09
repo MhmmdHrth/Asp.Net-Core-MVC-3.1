@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Data;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Data;
 using BulkyBook.Models;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
@@ -28,6 +24,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             return View();
         }
+
         #region API CALLS
 
         [HttpGet]
@@ -37,11 +34,11 @@ namespace BulkyBook.Areas.Admin.Controllers
             var userRole = _db.UserRoles.ToList();
             var roles = _db.Roles.ToList();
 
-            foreach(var user in userList)
-            { 
+            foreach (var user in userList)
+            {
                 var roleId = userRole.FirstOrDefault(x => x.UserId == user.Id).RoleId;
                 user.Role = roles.FirstOrDefault(x => x.Id == roleId).Name;
-                if(user.CompanyId == null)
+                if (user.CompanyId == null)
                 {
                     user.Company = new Company()
                     {
@@ -57,13 +54,13 @@ namespace BulkyBook.Areas.Admin.Controllers
         public IActionResult LockUnlock([FromBody] string id)
         {
             var objFromDb = _db.ApplicationUsers.FirstOrDefault(x => x.Id == id);
-            
-            if(objFromDb == null)
+
+            if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while Locking/Unlocking" });
             }
 
-            if(objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now)
+            if (objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now)
             {
                 //user is locked, jadi kita kena unlock dia
                 objFromDb.LockoutEnd = DateTime.Now;
@@ -78,6 +75,6 @@ namespace BulkyBook.Areas.Admin.Controllers
             return Json(new { success = true, message = "Operation Success" });
         }
 
-        #endregion
+        #endregion API CALLS
     }
 }

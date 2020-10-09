@@ -7,7 +7,7 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $("#tblData").DataTable({
         "ajax": {
-            "url":"/Admin/User/GetAll"
+            "url": "/Admin/User/GetAll"
         },
         "columns": [
             { "data": "name", "width": "15%" },
@@ -21,7 +21,6 @@ function loadDataTable() {
                     lockoutEnd: "lockoutEnd"
                 },
                 "render": function (data) {
-
                     var dateToday = new Date().getTime();
                     var lockout = new Date(data.lockoutEnd).getTime();
 
@@ -41,7 +40,6 @@ function loadDataTable() {
                                 </a>
                             </div>`;
                     }
-                    
                 }
             }
         ]

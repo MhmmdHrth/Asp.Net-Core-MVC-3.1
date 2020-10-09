@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Utility;
 using Dapper;
@@ -32,7 +28,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             CoverType coverType = new CoverType();
 
-            if(id == null)
+            if (id == null)
             {
                 return View(coverType);
             }
@@ -56,7 +52,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             {
                 var parameter = new DynamicParameters();
 
-                if(coverType.Id == 0)
+                if (coverType.Id == 0)
                 {
                     parameter.Add("@Name", coverType.Name);
                     _unitOfWork.SP_Call.Execute(SD.Proc_CoverType_Create, parameter);
@@ -75,8 +71,8 @@ namespace BulkyBook.Areas.Admin.Controllers
             return View(coverType);
         }
 
-
         #region API CALLS
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -87,12 +83,11 @@ namespace BulkyBook.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-
             var parameter = new DynamicParameters();
             parameter.Add("@Id", id);
 
             var objFromDb = _unitOfWork.SP_Call.OneRecord<CoverType>(SD.Proc_CoverType_Get, parameter);
-            if(objFromDb == null)
+            if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
@@ -102,6 +97,6 @@ namespace BulkyBook.Areas.Admin.Controllers
             return Json(new { success = true, message = "Successfully deleting record" });
         }
 
-        #endregion
+        #endregion API CALLS
     }
 }

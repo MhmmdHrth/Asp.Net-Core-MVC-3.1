@@ -65,12 +65,12 @@
                             <div class="row pl-2">
                                 <div class="col-2 text-primary"><h4>Count</h4></div>
                                 <div class="col-10">
-                                    <input class="form-control" asp-for="Count"/>
+                                    <input class="form-control" asp-for="Count" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-3 offset-lg-1 text-center">
-                            @{ 
+                            @{
                                 var base64 = Convert.ToBase64String(Model.Product.ImageUrl);
                                 var pic = String.Format($"data:image/png;base64,{base64}");
                             }
@@ -91,11 +91,9 @@
                         <button type="submit" value="Add to Cart" class="btn btn-primary btn-square btn-lg form-control" style="height:50px;">
                             Add to Cart
                         </button>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
-

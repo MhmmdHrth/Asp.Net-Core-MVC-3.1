@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -15,8 +8,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BulkyBook.Areas.Identity.Pages.Account
 {
@@ -82,7 +78,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
 
             public string PostalCode { get; set; }
 
-            public string  PhoneNumber { get; set; }
+            public string PhoneNumber { get; set; }
 
             public int? CompanyId { get; set; }
 
@@ -140,7 +136,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     //assigning role
-                    if(!await _roleManager.RoleExistsAsync(SD.Role_Admin)) //condition if role not exists
+                    if (!await _roleManager.RoleExistsAsync(SD.Role_Admin)) //condition if role not exists
                     {
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)); //create role
                     }
@@ -175,7 +171,6 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
 
-
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     //var callbackUrl = Url.Page(
@@ -193,7 +188,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        if(user.Role == null)//when role is null then they will go url
+                        if (user.Role == null)//when role is null then they will go url
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
                             return LocalRedirect(returnUrl);

@@ -36,31 +36,34 @@
                                 </div>
                                 <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
                                     <div class="col-4 text-md-right" style="padding-top:5px;">
-                                        <h6><strong>@item.Price.ToString("c")<span class="text-muted">x</span>
-                                            @item.Count 
-                                        </strong></h6>
+                                        <h6>
+                                            <strong>
+                                                @item.Price.ToString("c")<span class="text-muted">x</span>
+                                            @item.Count
+                                        </strong>
+                                    </h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6">
+                                    <div class="float-right mx-1">
+                                        <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
                                     </div>
-                                    <div class="col-6 col-sm-4 col-lg-6">
-                                        <div class="float-right mx-1">
-                                            <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
-                                                <i class="fas fa-plus"></i>
-                                            </a>
-                                        </div>
-                                        <div class="float-right mx-1">
-                                            <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-danger">
-                                                <i class="fas fa-minus"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-2 col-sm-4 col-lg-2 text-right">
-                                        <a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
+                                    <div class="float-right mx-1">
+                                        <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-danger">
+                                            <i class="fas fa-minus"></i>
                                         </a>
                                     </div>
                                 </div>
+                                <div class="col-2 col-sm-4 col-lg-2 text-right">
+                                    <a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <hr />
-                        }
+                        </div>
+                        <hr />
+                    }
                         <div class="row">
                             <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
                                 <ul class="list-group">
@@ -95,5 +98,4 @@
             </h1>
         </div>
     }
-
 </form>

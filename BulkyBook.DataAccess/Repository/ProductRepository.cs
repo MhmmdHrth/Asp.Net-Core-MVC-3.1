@@ -1,11 +1,7 @@
-﻿
-using BulkyBook.DataAccess.Data;
+﻿using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BulkyBook.DataAccess.Repository
 {
@@ -22,7 +18,7 @@ namespace BulkyBook.DataAccess.Repository
         {
             var objFromDb = _db.Products.FirstOrDefault(x => x.Id == product.Id);
 
-            if(product.ImageUrl != null)
+            if (product.ImageUrl != null)
             {
                 objFromDb.ImageUrl = product.ImageUrl;
             }

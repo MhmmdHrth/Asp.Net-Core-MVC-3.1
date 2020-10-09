@@ -1,16 +1,14 @@
-﻿using System;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
+using BulkyBook.Utility;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using BulkyBook.Models;
-using BulkyBook.Models.ViewModels;
-using BulkyBook.DataAccess.Repository.IRepository;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using BulkyBook.Utility;
 
 namespace BulkyBook.Areas.Customer.Controllers
 {
@@ -34,7 +32,7 @@ namespace BulkyBook.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            if(claim != null)
+            if (claim != null)
             {
                 var count = _unitOfWork.ShoppingCart.GetAll
                     (x => x.ApplicationUserId == claim.Value).ToList().Count;
@@ -48,7 +46,7 @@ namespace BulkyBook.Areas.Customer.Controllers
         public IActionResult Details(int id)
         {
             Product productFromDb = _unitOfWork.Product.
-                GetFirstOrDefault(x => x.Id == id,includeProperties:"CoverType,Category");
+                GetFirstOrDefault(x => x.Id == id, includeProperties: "CoverType,Category");
 
             ShoppingCart shoppingCart = new ShoppingCart()
             {
@@ -77,7 +75,7 @@ namespace BulkyBook.Areas.Customer.Controllers
                       includeProperties: "Product"
                     );
 
-                if(cartFromDb == null)
+                if (cartFromDb == null)
                 {
                     //no records exists in database
                     _unitOfWork.ShoppingCart.Add(shoppingCart);

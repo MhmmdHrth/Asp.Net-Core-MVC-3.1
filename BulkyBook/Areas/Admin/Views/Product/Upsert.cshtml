@@ -9,7 +9,7 @@
 <form method="post" enctype="multipart/form-data">
     <div class="row p-3 border">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @if(Model.Product.Id != 0)
+        @if (Model.Product.Id != 0)
         {
             Title = "Update Product";
             <input type="hidden" asp-for="Product.Id" />
@@ -136,21 +136,21 @@
                 </div>
             </div>
         </div>
-        @if(Model.Product.Id != 0)
+        @if (Model.Product.Id != 0)
         {
             <div class="col-3 offset-1 pt-2">
 
                 @{
                     var base64 = Convert.ToBase64String(Model.Product.ImageUrl);
                     var pic = String.Format($"data:image/jpg;base64,{base64}");
-                 }
-                <img src="@pic" style="width:100%;border-radius:5px;border:1px solid #bbb9b9" /> 
+                }
+                <img src="@pic" style="width:100%;border-radius:5px;border:1px solid #bbb9b9" />
             </div>
         }
     </div>
 </form>
 
-@section Scripts{ 
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script src="https://cdn.tiny.cloud/1/ome4mv1s7ou8e9lbmyf9tentodzo8i9d9ekulz912jpn4ezu/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BulkyBook.Utility
+﻿namespace BulkyBook.Utility
 {
     public static class SD
     {
@@ -23,13 +19,13 @@ namespace BulkyBook.Utility
 
         public static double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
         {
-            if(quantity < 50)
+            if (quantity < 50)
             {
                 return price;
             }
             else
             {
-                if(price < 100)
+                if (price < 100)
                 {
                     return price50;
                 }
@@ -67,6 +63,5 @@ namespace BulkyBook.Utility
             }
             return new string(array, 0, arrayIndex);
         }
-
     }
 }

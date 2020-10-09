@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -91,6 +87,6 @@ namespace BulkyBook.Areas.Admin.Controllers
             return Json(new { success = true, message = "Successfully deleting record" });
         }
 
-        #endregion
+        #endregion API CALLS
     }
 }

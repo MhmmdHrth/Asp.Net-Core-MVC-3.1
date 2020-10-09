@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models.ViewModels;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace BulkyBook.Areas.Customer.Controllers
 {
@@ -44,10 +42,9 @@ namespace BulkyBook.Areas.Customer.Controllers
             };
 
             ShoppingCartVM.OrderHeader.OrderTotal = 0;
-            //ShoppingCartVM.OrderHeader.ApplicationUser 
+            //ShoppingCartVM.OrderHeader.ApplicationUser
             //    = _unitOfWork.ApplicationUser.GetFirstOrDefault(x => x.Id == claim.Value,
             //                                                    includeProperties: "Company");
-
 
             //manipulate data
             foreach (var list in ShoppingCartVM.ListCart)
@@ -63,7 +60,6 @@ namespace BulkyBook.Areas.Customer.Controllers
                     list.Product.Description = String.Format($"{list.Product.Description.Substring(0, 99)}...");
                 }
             }
-
 
             return View(ShoppingCartVM);
         }
@@ -111,7 +107,6 @@ namespace BulkyBook.Areas.Customer.Controllers
                                     (cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
 
                 _unitOfWork.Save();
-
             }
 
             return RedirectToAction(nameof(Index));
@@ -123,7 +118,6 @@ namespace BulkyBook.Areas.Customer.Controllers
             var cart = _unitOfWork.ShoppingCart
                                     .GetFirstOrDefault(x => x.Id == cartId, includeProperties: "Product");
 
-
             var count = _unitOfWork.ShoppingCart.GetAll
                                     (x => x.ApplicationUserId == cart.ApplicationUserId).ToList().Count;
 
@@ -133,7 +127,6 @@ namespace BulkyBook.Areas.Customer.Controllers
             HttpContext.Session.SetObj(SD.ssShoppingCart, count - 1);
 
             return RedirectToAction(nameof(Index));
-
         }
     }
 }

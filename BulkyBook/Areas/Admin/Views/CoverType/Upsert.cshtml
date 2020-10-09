@@ -9,7 +9,7 @@
 <form method="post">
     <div class="row p-3 border">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @if(Model.Id != 0)
+        @if (Model.Id != 0)
         {
             Title = "Update Cover Type";
         }
@@ -30,7 +30,7 @@
                 <div class="col-8 offset-4">
                     @if (Model.Id != 0)
                     {
-                        <partial name="_EditAndBackToListButton" model="@Model.Id"/>
+                        <partial name="_EditAndBackToListButton" model="@Model.Id" />
                     }
                     else
                     {
@@ -41,4 +41,3 @@
         </div>
     </div>
 </form>
-

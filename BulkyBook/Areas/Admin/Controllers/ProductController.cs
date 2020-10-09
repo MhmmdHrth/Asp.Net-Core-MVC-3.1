@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Models.ViewModels;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.IO;
+using System.Linq;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
@@ -45,7 +42,6 @@ namespace BulkyBook.Areas.Admin.Controllers
                     Text = x.Name,
                     Value = x.Id.ToString()
                 })
-
             };
 
             if (id == null)
@@ -71,12 +67,12 @@ namespace BulkyBook.Areas.Admin.Controllers
             {
                 //get files uploaded
                 var files = HttpContext.Request.Form.Files;
-                if(files.Count > 0)
+                if (files.Count > 0)
                 {
                     byte[] pic = null;
                     using (var fileStream1 = files[0].OpenReadStream())
                     {
-                        using(var memoryStream1 = new MemoryStream())
+                        using (var memoryStream1 = new MemoryStream())
                         {
                             fileStream1.CopyTo(memoryStream1);
                             pic = memoryStream1.ToArray();
@@ -110,9 +106,8 @@ namespace BulkyBook.Areas.Admin.Controllers
                     Value = x.Id.ToString()
                 });
 
-
                 //check populate for update
-                if(productVM.Product.Id != 0)
+                if (productVM.Product.Id != 0)
                 {
                     productVM.Product = _unitOfWork.Product.Get(productVM.Product.Id);
                 }
@@ -125,7 +120,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var allObj = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
+            var allObj = _unitOfWork.Product.GetAll(includeProperties: "Category,CoverType");
             return Json(new { data = allObj });
         }
 
@@ -143,6 +138,6 @@ namespace BulkyBook.Areas.Admin.Controllers
             return Json(new { success = true, message = "Successfully deleting record" });
         }
 
-        #endregion
+        #endregion API CALLS
     }
 }

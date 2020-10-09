@@ -1,22 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BulkyBook.DataAccess.Data;
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Utility;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BulkyBook.DataAccess.Data;
-using BulkyBook.DataAccess.Repository.IRepository;
-using BulkyBook.DataAccess.Repository;
-using BulkyBook.Utility;
-using BulkyBook.Models;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using System;
 
 namespace BulkyBook
 {
@@ -31,7 +25,6 @@ namespace BulkyBook
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddCustomeDbContext(Configuration);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -75,7 +68,7 @@ namespace BulkyBook
         }
     }
 
-    static class CustomExtensionMethods
+    internal static class CustomExtensionMethods
     {
         public static IServiceCollection AddCustomeDbContext(this IServiceCollection services, IConfiguration configuration)
         {
@@ -116,6 +109,7 @@ namespace BulkyBook
 
             return services;
         }
+
         public static IServiceCollection AddCustomeSession(this IServiceCollection services)
         {
             services.AddSession(options =>

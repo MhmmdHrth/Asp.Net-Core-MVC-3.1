@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BulkyBook.DataAccess.Repository
 {
@@ -28,7 +27,7 @@ namespace BulkyBook.DataAccess.Repository
 
         public void Execute(string procedureName, DynamicParameters param = null)
         {
-            using(SqlConnection sqlConn = new SqlConnection(ConnectionString))
+            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))
             {
                 sqlConn.Open();
                 sqlConn.Execute(procedureName, param, commandType: System.Data.CommandType.StoredProcedure);
@@ -53,9 +52,9 @@ namespace BulkyBook.DataAccess.Repository
                 var item1 = result.Read<T1>().ToList();
                 var item2 = result.Read<T2>().ToList();
 
-                if(item1 != null && item2 != null)
+                if (item1 != null && item2 != null)
                 {
-                    return new Tuple<IEnumerable<T1>, IEnumerable<T2>>(item1,item2);
+                    return new Tuple<IEnumerable<T1>, IEnumerable<T2>>(item1, item2);
                 }
 
                 return new Tuple<IEnumerable<T1>, IEnumerable<T2>>(new List<T1>(), new List<T2>());

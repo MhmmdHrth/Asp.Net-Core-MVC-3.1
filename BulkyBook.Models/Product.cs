@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace BulkyBook.Models
 {
@@ -43,11 +41,13 @@ namespace BulkyBook.Models
 
         [Required]
         public int CategoryId { get; set; }
+
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; }
 
         [Required]
         public int CoverTypeId { get; set; }
+
         [ForeignKey(nameof(CoverTypeId))]
         public CoverType CoverType { get; set; }
     }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace BulkyBook.Models
 {
@@ -12,6 +10,7 @@ namespace BulkyBook.Models
         public int Id { get; set; }
 
         public string ApplicationUserId { get; set; }
+
         [ForeignKey(nameof(ApplicationUserId))]
         public ApplicationUser ApplicationUser { get; set; }
 

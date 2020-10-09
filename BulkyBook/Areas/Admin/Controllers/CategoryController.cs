@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BulkyBook.DataAccess.Repository.IRepository;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +35,7 @@ namespace BulkyBook.Areas.Admin.Controllers
 
             //for update
             category = _unitOfWork.Category.Get(id.GetValueOrDefault());
-            if(category == null)
+            if (category == null)
             {
                 return NotFound();
             }
@@ -52,7 +48,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(category.Id == 0)
+                if (category.Id == 0)
                 {
                     _unitOfWork.Category.Add(category);
                 }
@@ -81,7 +77,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         public IActionResult Delete(int id)
         {
             var objFromDb = _unitOfWork.Category.Get(id);
-            if(objFromDb == null)
+            if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
@@ -91,6 +87,6 @@ namespace BulkyBook.Areas.Admin.Controllers
             return Json(new { success = true, message = "Successfully deleting record" });
         }
 
-        #endregion
+        #endregion API CALLS
     }
 }
