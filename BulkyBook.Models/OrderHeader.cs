@@ -39,16 +39,22 @@ namespace BulkyBook.Models
 
         //this properties is already have in applicationUser
         //but sometimes they want to be shipped to other place
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string PhoneNumber { get; set; }
 
+        [Required]
         public string StreetAddress { get; set; }
 
+        [Required]
         public string City { get; set; }
 
+        [Required]
         public string State { get; set; }
 
+        [Required]
         public string PostalCode { get; set; }
     }
 }
