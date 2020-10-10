@@ -1,10 +1,13 @@
 ﻿using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Models;
 using BulkyBook.Models.ViewModels;
 using BulkyBook.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
@@ -17,6 +20,7 @@ namespace BulkyBook.Areas.Customer.Controllers
         private readonly IEmailSender _emailSender;
         private readonly UserManager<IdentityUser> _userManager;
 
+        [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
         public CartController(IUnitOfWork unitOfWork,
@@ -156,6 +160,59 @@ namespace BulkyBook.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.PostalCode = ShoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
 
             return View(ShoppingCartVM);
+        }
+
+        [HttpPost]
+        [ActionName(nameof(Summary))]
+        [ValidateAntiForgeryToken]
+        public IActionResult SummaryPOST()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            //initialize object
+            ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault
+                                                            (x => x.Id == claim.Value, includeProperties: "Company");
+            ShoppingCartVM.ListCart = _unitOfWork.ShoppingCart.GetAll
+                                            (x => x.ApplicationUserId == claim.Value,includeProperties:"Product");
+
+            //initialize status
+            ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
+            ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+            ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
+            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+
+            _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
+            _unitOfWork.Save();
+
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                item.Price = SD.GetPriceBasedOnQuantity(item.Count, item.Product.Price, item.Product.Price50, item.Product.Price100);
+
+                OrderDetails orderDetails = new OrderDetails()
+                {
+                    ProductId = item.ProductId,
+                    OrderId = ShoppingCartVM.OrderHeader.Id,
+                    Price = item.Price,
+                    Count = item.Count
+                };
+
+                ShoppingCartVM.OrderHeader.OrderTotal += (orderDetails.Price * orderDetails.Count);
+                _unitOfWork.OrderDetails.Add(orderDetails);
+                _unitOfWork.Save();
+            };
+
+            //remove all list of shopping cart
+            _unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ListCart);
+            _unitOfWork.Save();
+            HttpContext.Session.SetInt32(SD.ssShoppingCart, 0);
+
+            return RedirectToAction(nameof(OrderConfirmation),"Cart", new { id = ShoppingCartVM.OrderHeader.Id });
+        }
+
+        public IActionResult OrderConfirmation(int id)
+        {
+            return View(id);
         }
     }
 }
