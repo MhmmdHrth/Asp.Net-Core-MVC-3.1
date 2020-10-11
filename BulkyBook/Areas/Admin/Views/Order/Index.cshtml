@@ -2,7 +2,7 @@
 @{ 
     var status = Context.Request.Query["status"];
 
-    var pending = "text-primary";
+    var paymentPending = "text-primary";
     var all = "text-primary";
     var inprocess = "text-primary";
     var completed = "text-primary";
@@ -10,8 +10,8 @@
 
     switch (status)
     {
-        case "pending":
-            pending = "active white-text";
+        case "paymentPending":
+            paymentPending = "active white-text";
             break;
 
         case "inprocess":
@@ -47,9 +47,9 @@
                         In Process
                     </li>
                 </a>
-                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="pending">
-                    <li class="list-group-item @pending">
-                        Pending
+                <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="paymentPending">
+                    <li class="list-group-item @paymentPending">
+                        Payment Pending
                     </li>
                 </a>
                 <a style="text-decoration:none" asp-controller="Order" asp-action="Index" asp-route-status="completed">
@@ -87,5 +87,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/category.js"></script>
+    <script src="~/js/order.js"></script>
 }

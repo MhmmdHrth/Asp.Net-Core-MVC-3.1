@@ -51,7 +51,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             //seperate data show
             switch (status)
             {
-                case "pending":
+                case "paymentPending":
                     orderHeaderList = orderHeaderList.Where(x => x.PaymentStatus == SD.PaymentStatusDelayedPayment);
                     break;
 
