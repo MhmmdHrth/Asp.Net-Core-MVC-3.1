@@ -18,6 +18,9 @@ namespace BulkyBook.Models
         public DateTime OrderDate { get; set; }
 
         [Required]
+        public DateTime ShippingDate { get; set; }
+
+        [Required]
         public DateTime dateTime { get; set; }
 
         [Required]
