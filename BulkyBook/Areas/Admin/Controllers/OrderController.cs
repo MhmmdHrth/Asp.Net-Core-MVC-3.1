@@ -42,6 +42,16 @@ namespace BulkyBook.Areas.Admin.Controllers
             return View(OrderVM);
         }
 
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult StartProcessing(int id)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id);
+            orderHeader.OrderStatus = SD.StatusInProcess;
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         #region API CALLS
         [HttpGet]
         public IActionResult GetOrderList(string status)
