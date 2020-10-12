@@ -36,7 +36,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             OrderVM = new OrderDetailsVM()
             {
                 OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id),
-                OrderDetails = _unitOfWork.OrderDetails.GetAll(x => x.OrderId == id)
+                OrderDetails = _unitOfWork.OrderDetails.GetAll(x => x.OrderId == id,includeProperties:"Product")
             };
 
             return View(OrderVM);
