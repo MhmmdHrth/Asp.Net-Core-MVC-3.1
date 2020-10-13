@@ -7,6 +7,7 @@
 <form method="post">
     <br />
     <div class="backgroundWhite">
+        <input type="hidden" asp-for="OrderHeader.Id" />
         <div class="container">
             <div class="card">
                 <div class="card-header bg-dark text-light ml-0">
@@ -282,7 +283,7 @@
                                 }
 
                                 @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment &&
-                                    Model.OrderHeader.OrderStatus == SD.StatusShipped)
+                                   Model.OrderHeader.OrderStatus == SD.StatusShipped)
                                 {
 
                                     <script src="https://checkout.stripe.com/checkout.js"
@@ -300,14 +301,17 @@
                                     <script>
                                         document.getElementsByClassName("stripe-button-el")[0].style.display = "none";
                                     </script>
-                                    <button type="submit" value="Place Order" class="btn btn-success form-control">
+                                    <button asp-area="Admin"
+                                            asp-controller="Order"
+                                            asp-action="Details"
+                                            class="btn btn-success form-control">
                                         Pay Now
                                     </button>
 
                                 }
 
                                 @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded &&
-                         Model.OrderHeader.OrderStatus != SD.StatusCancelled && (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)))
+                        Model.OrderHeader.OrderStatus != SD.StatusCancelled && (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)))
                                 {
                                     <div class="my-2">
                                         <a asp-action="CancelOrder" asp-route-id="@Model.OrderHeader.Id"

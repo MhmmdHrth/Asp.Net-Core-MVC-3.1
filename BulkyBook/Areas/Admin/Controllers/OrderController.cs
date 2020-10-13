@@ -43,6 +43,48 @@ namespace BulkyBook.Areas.Admin.Controllers
             return View(OrderVM);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Details(string stripeToken)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == OrderVM.OrderHeader.Id);
+
+            if(stripeToken != null)
+            {
+                var options = new ChargeCreateOptions()
+                {
+                    Amount = Convert.ToInt32(orderHeader.OrderTotal * 100),//in cent
+                    Currency = "usd",
+                    Description = $"Order ID: {orderHeader.Id}",
+                    Source = stripeToken
+                };
+
+                //create charge service
+                var service = new ChargeService();
+                Charge charge = service.Create(options);
+
+                //check for balance in acc
+                if (charge.BalanceTransactionId == null)
+                {
+                    orderHeader.PaymentStatus = SD.PaymentStatusRejected;
+                }
+                else
+                {
+                    orderHeader.TransactionId = charge.BalanceTransactionId;
+                }
+
+                //check for charge status
+                if (charge.Status.ToLower() == "succeeded")
+                {
+                   orderHeader.PaymentStatus = SD.PaymentStatusApproved;
+                   orderHeader.PaymentDate = DateTime.Now;
+                }
+
+                _unitOfWork.Save();
+            }
+            return RedirectToAction(nameof(Details),new { id = orderHeader.Id});
+        }
+
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
         public IActionResult StartProcessing(int id)
         {
