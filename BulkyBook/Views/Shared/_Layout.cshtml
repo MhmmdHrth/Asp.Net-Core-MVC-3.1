@@ -68,7 +68,16 @@
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Order</a>
+                            <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">
+                                @if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                                {
+                                    <span>Manage Order</span>
+                                }
+                                else
+                                {
+                                    <span>Order History</span>
+                                }
+                            </a>
                         </li>
                         @if (httpContextAccessor.HttpContext.Session.GetObj<object>(SD.ssShoppingCart) != null)
                         {
