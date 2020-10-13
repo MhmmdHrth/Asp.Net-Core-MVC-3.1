@@ -36,7 +36,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             OrderVM = new OrderDetailsVM()
             {
-                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id),
+                OrderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id,includeProperties:"ApplicationUser"),
                 OrderDetails = _unitOfWork.OrderDetails.GetAll(x => x.OrderId == id,includeProperties:"Product")
             };
 
@@ -54,6 +54,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [HttpPost]
         public IActionResult ShipOrder(int id)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(x => x.Id == id);
